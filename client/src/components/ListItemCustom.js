@@ -19,15 +19,15 @@ function ListItemCustom(props) {
 
   const classes = useStyles();
   const [isActive, changeActive] = useState(false);
-  const {primary, roomName, ...rest} = props;
+  const {primary, currentRoom, ...rest} = props;
 
   useEffect(() => {
-    if (primary === roomName) {
+    if (primary === currentRoom) {
       changeActive(true);
     } else {
       changeActive(false);
     }
-  }, [primary, roomName]);
+  }, [primary, currentRoom]);
 
   return (
     <ListItem {...rest} className={isActive ? classes.active : ""} button>
