@@ -1,39 +1,28 @@
 import React, { useReducer, useEffect, useState } from 'react';
 
-// import axios from 'axios';
+import axios from 'axios';
 import io from 'socket.io-client';
 
 export const MessageContext = React.createContext();
 
 const initialState = {};
 
-const fakeData = {
-  general: [
-    {from: "userId", name: "aaron", msg: "hello everyone"},
-    {from: "userId", name: "aaron2", msg: "hello everyone"},
-    {from: "userId", name: "aaron3", msg: "hello everyone"},
-  ],
-  music: [
-    {from: "userId", name: "Thor", msg: "hi Avenger"},
-    {from: "userId", name: "IronMan", msg: "hello everyone"},
-    {from: "userId", name: "Captain", msg: "Avenger assemble!"},
-  ]
-
-}
-
 const reducer = function(state, action) {
-  const { room, from, msg, name } = action.payload;
-  // if (!state[room]) {
-  //   state[room] = [];
-  // }
+  const { roomId, fromUser, msg } = action.payload;
   switch (action.type) {
     case "RECEIVE_MESSAGE":
       return {
         ...state,
-        [room]: [
-          ...state[room],
-          { name, from, msg }
-        ]
+        [roomId]: {
+          ...state[roomId],
+          messages: [
+            ...state[roomId].messages,
+            { 
+              user: fromUser,
+              content: msg
+            }
+          ]
+        }
       };
     case "RECEIVE_DATA_FROM_SERVER": 
       return action.payload;
@@ -50,7 +39,7 @@ function sendChatAction(payload) {
 }
 
 function MessageStore(props) {
-  
+  const { children } = props;  
   const [allChats, dispatch] = useReducer(reducer, initialState);
 
   const [loading, changeLoading] = useState(true);
@@ -58,14 +47,16 @@ function MessageStore(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await setTimeout(() => {
-          dispatch({
-            type: "RECEIVE_DATA_FROM_SERVER",
-            payload: fakeData
-          })
-          changeLoading(false);
-        }, 3000);
-        
+        const res = await axios.get("http://localhost:6969/data/getMessage");
+        const data = res.data;
+        if (!data.success) {
+          return;
+        }
+        dispatch({
+          type: "RECEIVE_DATA_FROM_SERVER",
+          payload: data.allMessage
+        });
+        changeLoading(false);
       } catch (e) {
         console.log(e);
       }
@@ -80,11 +71,9 @@ function MessageStore(props) {
     });
   }, []);
 
-  console.log("hello");
   if (loading) {
     return <h3>Loading...</h3>
   }
-  console.log(allChats);
 
   return (
     <MessageContext.Provider 
@@ -93,7 +82,7 @@ function MessageStore(props) {
         sendChatAction,
       }}
     >
-      {props.children}
+      {children}
     </MessageContext.Provider>
   );
 }
