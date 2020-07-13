@@ -38,8 +38,8 @@ module.exports.checkLogin = async (req, res) => {
   try {
     const tokenVerify = jwt.verify(token, process.env.SECRET_KEY);
     const { userId } = tokenVerify;
-    const user = await User.findOne({id: userId});
-    if(!user) {
+    const user = await User.findOne({_id: userId});
+    if (!user) {
       res.json({ 
         success: false    
     });
@@ -47,8 +47,8 @@ module.exports.checkLogin = async (req, res) => {
     }
     res.json({ 
       success: true,
-      username: user.username,
-      userId: user.id,
+      userId: user._id,
+      username: user.name,
       avatarUrl: user.avatarUrl
     })
   } catch(e) {
