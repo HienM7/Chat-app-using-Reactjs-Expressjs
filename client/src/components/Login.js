@@ -77,6 +77,7 @@ function Login(props) {
         changeDisableButton(false);
         return;
       }
+      axios.defaults.headers.common['x-access-token'] = result.token;
       localStorage.setItem('token', result.token);
       const user = {
         username: result.username,
@@ -94,13 +95,12 @@ function Login(props) {
     } 
 
   } 
-  console.log("loginnnn");
   return (
     <Paper className={classes.LoginPage} elevation={3}>
       <Typography variant="h3" component="h3">
         Login
       </Typography>
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={doLogin}>
         {alert && <Alert className={classes.alert} severity="error">{alert}</Alert>}
         <TextField
           className={classes.input}
@@ -116,13 +116,11 @@ function Login(props) {
           onChange={(e) => {setPassword(e.target.value)}}
         />
         <Button
+          type="submit"
           className={disableButton ? classes.disableButton : classes.button}
           variant="contained" 
           color="primary"
           disable={disableButton}
-          onClick={doLogin} 
-          component="submit"
-          type="submit"
         >
           Login
         </Button>
