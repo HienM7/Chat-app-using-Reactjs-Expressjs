@@ -24,6 +24,11 @@ const reducer = function(state, action) {
           ]
         }
       };
+    case "JOIN_NEW_ROOM":
+      return {
+        ...state,
+        ...action.payload
+      };
     case "RECEIVE_DATA_FROM_SERVER": 
       return action.payload;
     default:
@@ -63,12 +68,13 @@ function MessageStore(props) {
     }
     fetchData();
     socket = io(PATH);
-    socket.on("chat message", function(payload) {
+    socket.on("chat message", (payload) => {
       dispatch({
         type: "RECEIVE_MESSAGE",
         payload: payload
       })
     });
+    // socket.on("message typing", ()  )
   }, []);
 
   if (loading) {
@@ -80,6 +86,7 @@ function MessageStore(props) {
       value={{
         allChats, 
         sendChatAction,
+        dispatch
       }}
     >
       {children}
