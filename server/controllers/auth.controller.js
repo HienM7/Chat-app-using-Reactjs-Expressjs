@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 
+
 module.exports.doLogin = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -38,6 +39,7 @@ module.exports.checkLogin = async (req, res) => {
   try {
     const tokenVerify = jwt.verify(token, process.env.SECRET_KEY);
     const { userId } = tokenVerify;
+    console.log(userId);
     const user = await User.findOne({_id: userId});
     if (!user) {
       res.json({ 

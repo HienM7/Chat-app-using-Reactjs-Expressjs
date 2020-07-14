@@ -2,7 +2,6 @@ const UserRoom = require('../models/userRoom.model');
 const User = require('../models/user.model');
 const Room = require('../models/room.model');
 const Message = require('../models/message.model');
-const ObjectId = require('mongoose').Types.ObjectId; 
 const jwt = require('jsonwebtoken');
 
 module.exports.getAllMessage = async (req, res) => {
@@ -10,7 +9,7 @@ module.exports.getAllMessage = async (req, res) => {
     const token = req.header('x-access-token');
     const tokenVerify = jwt.verify(token, process.env.SECRET_KEY);
     const { userId } = tokenVerify;
-    const user = await User.find({_id: ObjectId(userId)});
+    const user = await User.findOne({_id: userId});
     if(!user) {
       res.json({ 
         success: false    
@@ -18,7 +17,7 @@ module.exports.getAllMessage = async (req, res) => {
       return;
     }
     console.log(userId)
-    const dataRoomOfUser = await UserRoom.find({user: ObjectId(userId)})
+    const dataRoomOfUser = await UserRoom.find({user: userId})
       .populate({
         path: "room",
         select: "name messages _id",
