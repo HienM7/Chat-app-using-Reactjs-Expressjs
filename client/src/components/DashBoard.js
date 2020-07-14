@@ -3,6 +3,8 @@ import React, { useState, useContext } from 'react';
 import { Paper, List, Typography, TextField, Button, Chip, Avatar  } from  '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import JoinRoom from './JoinRoom';
+import CreateRoom from './CreateRoom';
 import RoomItem from './RoomItem';
 import AccountMenu from './AccountMenu';
 import { MessageContext } from '../Store/MessageStore';
@@ -34,6 +36,11 @@ const useStyles = makeStyles(theme => ({
     height: "450px",
     // borderRight: "1px solid rgba(0, 0, 0, 0.2)",
   },
+  roomDetails: {
+    display: "flex",
+    justifyContent: "Space-Between",
+    alignItems: "center"
+  },
   chatWindow: {
     width: "70%",
     boxShadow: "-5px 0 10px rgba(0, 0, 0, 0.2)"
@@ -45,8 +52,8 @@ const useStyles = makeStyles(theme => ({
   }
   ,
   chatBox: {
-    width: "80%",
-    marginLeft: "20px"
+    marginLeft: "20px",
+    flexGrow: 1
   },
   button: {
     marginTop: "15px",
@@ -73,6 +80,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     justifyContent: "flex-end",
   },
+  flexSpaceBetween: {
+    display: "flex",
+    justifyContent: "SpaceBetween"
+  }
 
 }))
 
@@ -112,6 +123,13 @@ function DashBoard(props) {
           {userInfo.username}
         </AccountMenu>
       </Typography>
+      <div className={classes.roomDetails}>
+        Room Id: {currentRoom}
+        <div className={classes.flex}>
+        <CreateRoom />
+        <JoinRoom />
+        </div>
+      </div>
       <div className={classes.flex}>
         <ScrollToBottom mode="top" className={classes.roomWindow}>
           <List>
