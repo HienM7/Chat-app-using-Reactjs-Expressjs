@@ -18,6 +18,10 @@ module.exports = (io) =>  {
           if (!user) {
             return;
           }
+          const checkRoom = await Room.findOne({_id: roomId});
+          if (!checkRoom) {
+            return;
+          }
           const messageId = new ObjectId();
           await Message.create({
             _id: messageId,
