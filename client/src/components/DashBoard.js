@@ -108,7 +108,7 @@ function DashBoard(props) {
     sendChatAction({
       token: token,
       msg: message.trim(),
-      roomId: currentRoom 
+      roomId: currentRoom
     });
     setMessage("");
   }
@@ -149,6 +149,7 @@ function DashBoard(props) {
         <div className={classes.chatWindow}>
           <ScrollToBottom className={classes.messageWindow}>
             {
+              allChats[currentRoom] && 
               allChats[currentRoom].messages.map( (message, index) => (
                 <div 
                   className={
