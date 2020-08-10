@@ -13,15 +13,17 @@ module.exports.doLogin = async (req, res) => {
     }
     const match = await bcrypt.compare(password, user.password);
     if(!match) {
-      res.json({error: "Password is incorrect"})
+      res.json({msg: "Password is incorrect"})
       return;
     }
+    
     jwt.sign({userId: user._id }, process.env.SECRET_KEY, (err, token) => {
       if (!err) {
         res.json({
           userId: user._id,
           username: user.name,
           avatarUrl: user.avatarUrl,
+          isConfirmation: user.isConfirmation,
           success: true,
           token: token
         })
@@ -51,6 +53,7 @@ module.exports.checkLogin = async (req, res) => {
       success: true,
       userId: user._id,
       username: user.name,
+      isConfirmation: user.isConfirmation,
       avatarUrl: user.avatarUrl
     })
   } catch(e) {
