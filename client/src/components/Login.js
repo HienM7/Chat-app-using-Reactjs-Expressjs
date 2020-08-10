@@ -3,13 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Paper, TextField, Button, Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import { AuthenticationContext } from '../Store/UserStore';
 
 const useStyles = makeStyles(theme => ({
   LoginPage: {
-    marginTop: "20px",
-    width: "80%",
+    marginTop: "100px",
+    width: "550px",
     margin: "0 auto",
     padding: theme.spacing(3, 2),
     paddingBottom: "50px"
@@ -20,7 +21,6 @@ const useStyles = makeStyles(theme => ({
     padding: "10px",
     marginTop: "20px",
     backgroundColor: "#1976d2"
-
   },
   
   alert: {
@@ -38,6 +38,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#1976d2",
     "&:hover": {
       backgroundColor: "#115293",
+    }
+  },
+  register: {
+    marginTop: "30px",
+    "& a": {
+      color: "#1976d2",
+      textDecoration: "none"
     }
   }
 }))
@@ -73,7 +80,7 @@ function Login(props) {
       let result = res.data;
 
       if (!result.success) {
-        setAlert("Username and password are not correct");
+        setAlert(result.msg);
         changeDisableButton(false);
         return;
       }
@@ -83,6 +90,7 @@ function Login(props) {
         username: result.username,
         userId: result.userId,
         avatarUrl: result.avatarUrl,
+        isConfirmation: result.isConfirmation
       }
       
       dispatch({
@@ -125,6 +133,7 @@ function Login(props) {
           Login
         </Button>
       </form>
+      <div className={classes.register}>Don't have any account? <Link to="/register">Register</Link></div>
     </Paper>
   );
 
