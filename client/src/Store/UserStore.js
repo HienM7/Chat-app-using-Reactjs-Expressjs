@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const reducer = function(state, action) {
-  const { username, userId, avatarUrl } = action.payload;
+  const { username, userId, avatarUrl, isConfirmation } = action.payload;
 
   switch (action.type) {
     case "USER_LOGIN":
@@ -16,7 +16,8 @@ const reducer = function(state, action) {
         isLoggedIn: true,
         username,
         userId,
-        avatarUrl
+        avatarUrl,
+        isConfirmation
       };
     case "USER_LOGOUT": 
       return {
@@ -57,6 +58,7 @@ function UserStore(props) {
           username: result.username,
           userId: result.userId,
           avatarUrl: result.avatarUrl,
+          isConfirmation: result.isConfirmation
         }
     
         dispatch({
