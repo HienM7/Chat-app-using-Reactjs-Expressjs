@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGO_DB_URL, { useNewUrlParser: true, useUnifiedTo
 const authApi = require('./routes/auth.route');
 const dataApi = require('./routes/message.route');
 const roomApi = require('./routes/room.route');
-
+const registerApi = require('./routes/register.route');
 
 app.use(cors());
 app.use(bodyParser.json())
@@ -26,7 +26,7 @@ app.use(express.static("public"));
 app.use('/auth', authApi);
 app.use('/data', dataApi);
 app.use('/room', roomApi);
-
+app.use('/register', registerApi);
 
 app.get("/", (req, res) => {
   res.send("connection complete");
