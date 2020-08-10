@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   isAdmin: {type: Boolean, default: false},
   path: String,
   avatarUrl: String,
+  isConfirmation: {type: Boolean, default: false}
 });
 
 const User = mongoose.model('User', userSchema, 'users');
