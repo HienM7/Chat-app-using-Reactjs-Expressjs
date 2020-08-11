@@ -37,7 +37,7 @@ const reducer = function(state, action) {
 }
     
 let socket;
-const PATH = 'localhost:6969';
+const PATH = '/';
  
 function sendChatAction(payload) {
   socket.emit("chat message", payload);
@@ -52,7 +52,7 @@ function MessageStore(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:6969/data/getMessage");
+        const res = await axios.get("/data/getMessage");
         const data = res.data;
         if (!data.success) {
           return;

@@ -74,7 +74,7 @@ function Login(props) {
 
     try {
       let res = await axios.post(
-        "http://localhost:6969/auth/doLogin",
+        "/auth/doLogin",
         { email, password }
       );  
       let result = res.data;

@@ -50,7 +50,7 @@ function JoinRoom(props) {
     e.preventDefault();
     try {
       changeDisable(true);
-      const res = await axios.post('http://localhost:6969/room/join', {
+      const res = await axios.post('/room/join', {
         roomId: roomId
       });
       const data = res.data;

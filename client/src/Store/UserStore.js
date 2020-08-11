@@ -43,7 +43,7 @@ function UserStore(props) {
     const fetchData = async () => {
       try {
         let res = await axios.post(
-          "http://localhost:6969/auth/checkLogin",
+          "/auth/checkLogin",
             {
               token: localStorage.getItem('token')
             }

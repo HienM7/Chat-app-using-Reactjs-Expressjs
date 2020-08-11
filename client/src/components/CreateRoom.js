@@ -50,7 +50,7 @@ function CreateRoom(props) {
     e.preventDefault();
     try {
       changeDisable(true);
-      const res = await axios.post('http://localhost:6969/room/create', {
+      const res = await axios.post('/room/create', {
         roomName: roomName
       });
       const data = res.data;

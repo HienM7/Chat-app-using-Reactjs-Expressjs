@@ -89,7 +89,7 @@ function Register(props) {
 
     try {
       let res = await axios.post(
-        "http://localhost:6969/register",
+        "/register",
         { email, password, name }
       );  
       let result = res.data;
