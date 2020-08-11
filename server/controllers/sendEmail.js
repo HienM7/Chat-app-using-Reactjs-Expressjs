@@ -8,7 +8,7 @@ module.exports = (newUser) => {
   jwt.sign({email: email }, process.env.SECRET_KEY, (err, token) => {
     if (!err) {
       emailSign = token;
-      const url = `http://localhost:6969/register/confirmation/${emailSign}`;
+      const url = `https://chat-app-m7.herokuapp.com/register/confirmation/${emailSign}`;
       console.log(url);
       const msg = {
         to: email,

@@ -6,6 +6,7 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const port = process.env.PORT || 6969;
 require('./controllers/socketIo.controller')(io);
@@ -28,8 +29,10 @@ app.use('/data', dataApi);
 app.use('/room', roomApi);
 app.use('/register', registerApi);
 
-app.get("/", (req, res) => {
-  res.send("connection complete");
+app.use(express.static(path.join(__dirname, 'build')));
+console.log(path.join(__dirname, 'build', 'index.html'))
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 server.listen(port, () => {
